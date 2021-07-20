@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import status, HTTPException
+from starlette.responses import Response
 from .. import schemas, models
 
 
@@ -35,5 +36,15 @@ def update(id, ut: schemas.TodoUpdate, db: Session):
         )
     update_todo.update(ut.dict(exclude_unset=True))
     db.commit()
-    # db.refresh(update_todo)
     return "Updated"
+
+
+def delete(id, db: Session):
+    delete_todo = db.query(models.Todo).filter(models.Todo.id == id)
+    if not delete_todo.first():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Item {id} can't be modified"
+        )
+    delete_todo.delete()
+    db.commit()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

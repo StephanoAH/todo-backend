@@ -25,3 +25,8 @@ def get_specific_todo(id, db: Session = Depends(session.get_db)):
 @router.patch("/{id}", status_code=status.HTTP_202_ACCEPTED)
 def update_todo(id, ut: schemas.TodoUpdate, db: Session = Depends(session.get_db)):
     return todo.update(id, ut, db)
+
+
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_todo(id, db: Session = Depends(session.get_db)):
+    return todo.delete(id, db)
