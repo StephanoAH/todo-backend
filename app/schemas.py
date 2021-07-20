@@ -8,13 +8,17 @@ class TodoBase(BaseModel):
     description: str
     is_done: bool = False
 
+    class Config:
+        orm_mode = True
+
 
 class TodoUpdate(BaseModel):
     title: Optional[str]
     description: Optional[str]
-    is_done: Optional[bool]
-    created_on: Optional[date]
-    updated_on: Optional[date]
+    is_done: Optional[bool] = False
+
+    class Config:
+        orm_mode = True
 
 
 class Todo(TodoBase):

@@ -17,6 +17,11 @@ def get_all_todos(db: Session = Depends(session.get_db)):
     return todo.get_all(db)
 
 
-@router.get("/{id}", status_code=status.HTTP_200_OK)
+@router.get("/{id}", response_model=schemas.TodoBase, status_code=status.HTTP_200_OK)
 def get_specific_todo(id, db: Session = Depends(session.get_db)):
     return todo.get_one(id, db)
+
+
+@router.patch("/{id}", status_code=status.HTTP_202_ACCEPTED)
+def update_todo(id, ut: schemas.TodoUpdate, db: Session = Depends(session.get_db)):
+    return todo.update(id, ut, db)

@@ -25,3 +25,15 @@ def get_one(id, db: Session):
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Todo {id} doesn't exist"
         )
     return todo
+
+
+def update(id, ut: schemas.TodoUpdate, db: Session):
+    update_todo = db.query(models.Todo).filter(models.Todo.id == id)
+    if not update_todo.first():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Item {id} can't be modified"
+        )
+    update_todo.update(ut.dict(exclude_unset=True))
+    db.commit()
+    # db.refresh(update_todo)
+    return "Updated"
