@@ -11,6 +11,8 @@ class Todo(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
     title = Column(String)
     description = Column(String)
-    status = Column(Boolean, default=False)
+    is_done = Column(Boolean)
     created_on = Column(Date, default=datetime.datetime.now)
-    updated_on = Column(Date, default=datetime.datetime.now, onupdate=datetime.datetime.now)
+    updated_on = Column(
+        Date, default=datetime.datetime.now, onupdate=datetime.datetime.now
+    )
